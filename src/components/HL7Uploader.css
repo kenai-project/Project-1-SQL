@@ -1,0 +1,81 @@
+.hl7-uploader {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.hl7-uploader h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.hl7-uploader form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hl7-uploader input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hl7-uploader button {
+  padding: 0.75rem 1.5rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.hl7-uploader button:hover {
+  background: #2980b9;
+}
+
+.hl7-uploader button:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  background: #e67e22;
+}
+
+.reset-button:hover {
+  background: #d35400;
+}
+
+.error {
+  color: #e74c3c;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #fadbd8;
+  border-radius: 4px;
+}
+
+.result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #e8f4f8;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+}

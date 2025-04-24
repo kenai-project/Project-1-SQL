@@ -1,0 +1,135 @@
+/* Register Page Container */
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  background: url('https://source.unsplash.com/1600x900/?nature,abstract') no-repeat center center/cover;
+  padding: 20px; /* Prevents content from touching screen edges */
+}
+
+/* Card Styling */
+.card-container {
+  padding: 40px;
+  background-color: white;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-container:hover {
+  transform: scale(1.02); /* Slight hover effect for a modern touch */
+}
+
+/* Profile Image */
+.profile-img-card {
+  display: block;
+  margin: 0 auto 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+}
+
+/* Form Styling */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Input Styling */
+.form-group .form-control {
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-group .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Password Toggle */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: gray;
+  transition: color 0.3s ease-in-out;
+}
+
+.toggle-password:hover {
+  color: black;
+}
+
+/* Button Styling */
+.form-group .btn {
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-group .btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Alert Styling */
+.form-group .alert {
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.alert-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.alert-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+  .card-container {
+    padding: 30px;
+    width: 95%;
+  }
+
+  .form-group .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .profile-img-card {
+    width: 80px;
+    height: 80px;
+  }
+}
