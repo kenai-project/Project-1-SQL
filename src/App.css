@@ -1,0 +1,113 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --navbar-bg: #f8f9fa;
+  --card-bg: #f1f1f1;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f1218;
+  --text-color: #e0e0e0;
+  --navbar-bg: #333;
+  --card-bg: #23262e;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* ===== 🌎 Global Styling ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ✅ Ensure body fills screen */
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== 🏠 General Layout ===== */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* ===== 📌 Navbar Styling ===== */
+.navbar {
+  background-color: var(--navbar-bg);
+  color: var(--text-color);
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+}
+
+.navbar-nav .nav-item a {
+  text-decoration: none;
+  color: white;
+  padding: 8px 12px;
+  transition: background 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-item a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+/* ===== 🎭 Profile Modal Styling ===== */
+.profile-modal {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.profile-modal p {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  color: #333;
+}
+
+.profile-modal .btn {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+/* ===== 📱 Mobile View (Responsive) ===== */
+@media (max-width: 768px) {
+  .profile-modal {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 45px;
+    width: 90vw;
+    padding: 12px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+    text-align: center;
+    /* padding: 8px 0; */
+  }
+}

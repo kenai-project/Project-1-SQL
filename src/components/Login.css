@@ -1,0 +1,144 @@
+/* ✅ Centered Login Card */
+.card-container {
+  padding: 40px;
+  background-color: white;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  margin: auto;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-container:hover {
+  transform: scale(1.02);
+}
+
+/* ✅ Center Content for Small Screens */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* ✅ Profile Image */
+.profile-img-card {
+  display: block;
+  margin: 0 auto 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+}
+
+/* ✅ Form Fields */
+.form-group {
+  position: relative;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ✅ Password Toggle */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: gray;
+  transition: color 0.3s ease-in-out;
+}
+
+.toggle-password:hover {
+  color: black;
+}
+
+/* ✅ Input Fields */
+.form-group .form-control {
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-group .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* ✅ Buttons */
+.form-group .btn {
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-group .btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.03);
+}
+
+.form-group .btn:active {
+  transform: scale(0.98);
+}
+
+/* ✅ Alert Messages */
+.form-group .alert {
+  margin-top: 10px;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.alert-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* ✅ Mobile Optimization */
+@media (max-width: 768px) {
+  .card-container {
+    padding: 30px;
+    width: 100%;
+  }
+
+  .profile-img-card {
+    width: 70px;
+    height: 70px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  .form-group .form-control {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .form-group .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

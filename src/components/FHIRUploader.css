@@ -1,0 +1,117 @@
+/* FHIRUploader.css */
+
+.hl7-uploader {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hl7-uploader h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .hl7-uploader form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .hl7-uploader label {
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .hl7-uploader select,
+  .hl7-uploader input[type="file"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .hl7-uploader .button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .hl7-uploader button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .hl7-uploader button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+  
+  .hl7-uploader button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  .hl7-uploader .sample-button {
+    background-color: #28a745;
+  }
+  
+  .hl7-uploader .sample-button:hover {
+    background-color: #218838;
+  }
+  
+  .hl7-uploader .error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  /* Processed Result with Dark Background */
+  .hl7-uploader .result {
+    margin-top: 20px;
+    background-color: #333; /* Dark background */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #fff; /* White text for readability */
+  }
+  
+  .hl7-uploader pre {
+    background-color: #444; /* Slightly lighter dark background for preformatted text */
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  /* Make the form responsive */
+  @media (max-width: 600px) {
+    .hl7-uploader {
+      padding: 15px;
+    }
+  
+    .hl7-uploader form {
+      gap: 15px;
+    }
+  
+    .hl7-uploader button {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .hl7-uploader .button-group {
+      flex-direction: column;
+    }
+  }
+  
