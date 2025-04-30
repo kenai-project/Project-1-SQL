@@ -2,12 +2,17 @@ import React from "react";
 import { Box, TextField, Select, MenuItem, Button, Paper } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const PatientForm = ({ initialValues, onSubmit, onCancel, isEditing }) => {
   const validationSchema = Yup.object({
     first_name: Yup.string().required("First name is required"),
     last_name: Yup.string().required("Last name is required"),
-    date_of_birth: Yup.date().required("Date of birth is required"),
+    date_of_birth: Yup.date()
+      .typeError("Date of birth must be a valid date")
+      .required("Date of birth is required"),
     gender: Yup.string().required("Gender is required"),
     email: Yup.string().email("Invalid email format"),
     phone: Yup.string(),
@@ -52,20 +57,28 @@ const PatientForm = ({ initialValues, onSubmit, onCancel, isEditing }) => {
           InputLabelProps={{ style: { color: "#fff" } }}
           sx={{ input: { color: "#fff" } }}
         />
-        <TextField
-          label="Date of Birth"
-          name="date_of_birth"
-          type="date"
-          value={formik.values.date_of_birth}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.date_of_birth && Boolean(formik.errors.date_of_birth)}
-          helperText={formik.touched.date_of_birth && formik.errors.date_of_birth}
-          required
-          fullWidth
-          InputLabelProps={{ shrink: true, style: { color: "#fff" } }}
-          sx={{ input: { color: "#fff" } }}
-        />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            label="Date of Birth"
+            value={formik.values.date_of_birth || null}
+            onChange={(value) => {
+              formik.setFieldValue("date_of_birth", value);
+            }}
+            onBlur={formik.handleBlur}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                name="date_of_birth"
+                error={formik.touched.date_of_birth && Boolean(formik.errors.date_of_birth)}
+                helperText={formik.touched.date_of_birth && formik.errors.date_of_birth}
+                required
+                fullWidth
+                InputLabelProps={{ shrink: true, style: { color: "#fff" } }}
+                sx={{ input: { color: "#fff" } }}
+              />
+            )}
+          />
+        </LocalizationProvider>
         <Select
           label="Gender"
           name="gender"

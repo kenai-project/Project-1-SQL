@@ -42,6 +42,26 @@ function formatDate(dateString) {
   return date.toISOString().split("T")[0]; // YYYY-MM-DD
 }
 
+// Helper to map FHIR Patient resource to internal patient object, excluding empty fields
+function mapFHIRPatientToInternal(fhirPatient) {
+  const patient = {};
+  if (fhirPatient.data) {
+    const data = fhirPatient.data;
+    // Extract name
+    if (Array.isArray(data.name) && data.name.length > 0) {
+      const officialName = data.name.find((n) => n.use === "official") || data.name[0];
+      if (officialName.family) patient.last_name = officialName.family;
+      if (officialName.given && officialName.given.length > 0) patient.first_name = officialName.given[0];
+    }
+    // Extract gender
+    if (data.gender) patient.gender = data.gender;
+    // Extract birthDate
+    if (data.birthDate) patient.date_of_birth = data.birthDate;
+    // Additional fields can be added here if present in FHIR resource
+  }
+  return patient;
+}
+
 function PatientManager() {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -82,7 +102,11 @@ function PatientManager() {
 
       fhirPatients.forEach((p) => {
         if (!mergedPatientsMap.has(p.id)) {
-          mergedPatientsMap.set(p.id, { ...p, source: "fhir" });
+          const mappedPatient = mapFHIRPatientToInternal(p);
+          // Only add if mappedPatient has at least one non-empty field
+          if (Object.keys(mappedPatient).length > 0) {
+            mergedPatientsMap.set(p.id, { id: p.id, ...mappedPatient, source: "fhir" });
+          }
         }
       });
 
