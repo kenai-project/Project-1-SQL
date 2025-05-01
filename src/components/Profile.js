@@ -192,7 +192,20 @@ const Profile = () => {
           </>
         )}
 
-        <Button variant="contained" color="error" onClick={handleLogout} sx={{ mt: 3 }}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleLogout}
+          sx={{
+            mt: 3,
+            transition: 'transform 0.3s ease, background-color 0.3s ease',
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: '#d32f2f', // Slightly lighter red
+              transform: 'scale(1.05)',
+            },
+          }}
+        >
           Logout
         </Button>
       </Paper>

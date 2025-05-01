@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Route, Link, useNavigate } from "react-router-dom";
+import AnimatedRoutes from "./components/AnimatedRoutes";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   AppBar,
@@ -8,15 +9,14 @@ import {
   IconButton,
   Drawer,
   List,
-  ListItem,
   ListItemIcon,
-  ListItemText,
   CssBaseline,
   Box,
   Button,
   Divider,
   Tooltip,
 } from '@mui/material';
+import { ListItem, ListItemText } from '@mui/material';
 import {
   Home as HomeIcon,
   Info as InfoIcon,
@@ -132,46 +132,172 @@ const App = () => {
       </Toolbar>
       <Divider />
         <List>
-          <ListItem component={Link} to="/" onClick={() => setMobileOpen(false)}>
+          <ListItem
+            component={Link}
+            to="/"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                transform: 'scale(1.05)',
+                color: '#1976d2',
+              },
+            }}
+          >
             <ListItemIcon><HomeIcon color="primary" /></ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem component={Link} to="/about" onClick={() => setMobileOpen(false)}>
+          <ListItem
+            component={Link}
+            to="/about"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                transform: 'scale(1.05)',
+                color: '#1976d2',
+              },
+            }}
+          >
             <ListItemIcon><InfoIcon color="primary" /></ListItemIcon>
             <ListItemText primary="About" />
           </ListItem>
-          <ListItem component={Link} to="/contactus" onClick={() => setMobileOpen(false)}>
+          <ListItem
+            component={Link}
+            to="/contactus"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                transform: 'scale(1.05)',
+                color: '#1976d2',
+              },
+            }}
+          >
             <ListItemIcon><ContactMailIcon color="primary" /></ListItemIcon>
             <ListItemText primary="Contact Us" />
           </ListItem>
           {currentUser && (
             <>
-              <ListItem component={Link} to="/fhir" onClick={() => setMobileOpen(false)}>
+              <ListItem
+                component={Link}
+                to="/fhir"
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: 1,
+                  transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                    transform: 'scale(1.05)',
+                    color: '#1976d2',
+                  },
+                }}
+              >
                 <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
                 <ListItemText primary="FHIR" />
               </ListItem>
-              <ListItem component={Link} to="/hl7" onClick={() => setMobileOpen(false)}>
+              <ListItem
+                component={Link}
+                to="/hl7"
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: 1,
+                  transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                    transform: 'scale(1.05)',
+                    color: '#1976d2',
+                  },
+                }}
+              >
                 <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
                 <ListItemText primary="HL7" />
               </ListItem>
-              <ListItem component={Link} to="/report" onClick={() => setMobileOpen(false)}>
+              <ListItem
+                component={Link}
+                to="/report"
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: 1,
+                  transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                    transform: 'scale(1.05)',
+                    color: '#1976d2',
+                  },
+                }}
+              >
                 <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
                 <ListItemText primary="Report" />
               </ListItem>
-              <ListItem component={Link} to="/patients" onClick={() => setMobileOpen(false)}>
+              <ListItem
+                component={Link}
+                to="/patients"
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: 1,
+                  transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                    transform: 'scale(1.05)',
+                    color: '#1976d2',
+                  },
+                }}
+              >
                 <ListItemIcon><PeopleIcon color="primary" /></ListItemIcon>
                 <ListItemText primary="Patients" />
               </ListItem>
             </>
           )}
           {showModeratorBoard && (
-            <ListItem component={Link} to="/mod" onClick={() => setMobileOpen(false)}>
+            <ListItem
+              component={Link}
+              to="/mod"
+              onClick={() => setMobileOpen(false)}
+              sx={{
+                cursor: 'pointer',
+                borderRadius: 1,
+                transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+                '&:hover': {
+                  backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                  transform: 'scale(1.05)',
+                  color: '#1976d2',
+                },
+              }}
+            >
               <ListItemIcon><PeopleIcon color="primary" /></ListItemIcon>
               <ListItemText primary="Moderator" />
             </ListItem>
           )}
           {showAdminBoard && (
-            <ListItem component={Link} to="/admin" onClick={() => setMobileOpen(false)}>
+            <ListItem
+              component={Link}
+              to="/admin"
+              onClick={() => setMobileOpen(false)}
+              sx={{
+                cursor: 'pointer',
+                borderRadius: 1,
+                transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+                '&:hover': {
+                  backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                  transform: 'scale(1.05)',
+                  color: '#1976d2',
+                },
+              }}
+            >
               <ListItemIcon><PeopleIcon color="primary" /></ListItemIcon>
               <ListItemText primary="Admin" />
             </ListItem>
@@ -256,7 +382,7 @@ const App = () => {
             backgroundColor: theme.palette.background.default,
           }}
         >
-          <Routes>
+          <AnimatedRoutes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -286,7 +412,7 @@ const App = () => {
                 <PatientManager />
               </PrivateRoute>
             } />
-          </Routes>
+          </AnimatedRoutes>
         </Box>
       </Box>
     </ThemeProvider>
