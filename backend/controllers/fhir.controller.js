@@ -1,5 +1,4 @@
 const { insertFhirRecord, getFhirRecords } = require("../models/fhir.model");
-const { getApiKey } = require("../models/apiKey.model");
 
 exports.parseFhir = async (req, res) => {
   try {
@@ -8,13 +7,6 @@ exports.parseFhir = async (req, res) => {
     if (!data) {
       return res.status(400).json({ error: "FHIR data is required" });
     }
-
-    // Example: Log OpenRouter API key loaded from SQL or environment
-    let openRouterApiKey = await getApiKey("OPENROUTER_API_KEY");
-    if (!openRouterApiKey) {
-      openRouterApiKey = process.env.OPENROUTER_API_KEY || null;
-    }
-    console.log("🔐 OpenRouter Key Loaded:", openRouterApiKey ? "✅ Yes" : "❌ No");
 
     // Insert FHIR data into PostgreSQL
     const newRecord = await insertFhirRecord(data);

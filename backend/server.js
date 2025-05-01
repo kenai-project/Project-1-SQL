@@ -1,5 +1,4 @@
 require("dotenv").config({ path: "../.env" }); // Load environment variables from root .env
-console.log("🔐 OpenRouter Key Loaded:", process.env.OPENROUTER_API_KEY ? "✅ Yes" : "❌ No");
 
 const express = require("express");
 const cors = require("cors");
@@ -90,9 +89,13 @@ app.post("/api/send-hl7", async (req, res) => {
 
     console.log("✅ Received ACK:", ack.log());
 
-    // Optional: Store message and ACK in PostgreSQL for logging/auditing
+    // Optional: Store message and ACK in MongoDB for logging/auditing
     try {
-      // TODO: Implement PostgreSQL logging for HL7 messages and ACKs
+      const hl7Log = new HL7Log({
+        message: hl7Message,
+        ack: ack.log(),
+      });
+      await hl7Log.save();
     } catch (logErr) {
       console.error("⚠️ Failed to save HL7 log:", logErr.message);
     }
