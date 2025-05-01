@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Link, useNavigate } from "react-router-dom";
 import AnimatedRoutes from "./components/AnimatedRoutes";
+import ScrollToTop from "./components/ScrollToTop";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   AppBar,
@@ -15,6 +16,8 @@ import {
   Button,
   Divider,
   Tooltip,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { ListItem, ListItemText } from '@mui/material';
 import {
@@ -81,6 +84,7 @@ const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
 
   const theme = themeMode === 'dark' ? darkTheme : lightTheme;
@@ -116,11 +120,20 @@ const App = () => {
   }, [navigate]);
 
   const handleLogout = () => {
+    handleMenuClose();
     AuthService.logout();
     setShowModeratorBoard(false);
     setShowAdminBoard(false);
     setCurrentUser(null);
     navigate("/login");
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const drawer = (
@@ -137,6 +150,7 @@ const App = () => {
             to="/"
             onClick={() => setMobileOpen(false)}
             sx={{
+              textDecoration: 'none',
               cursor: 'pointer',
               borderRadius: 1,
               transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -155,6 +169,7 @@ const App = () => {
             to="/about"
             onClick={() => setMobileOpen(false)}
             sx={{
+              textDecoration: 'none',
               cursor: 'pointer',
               borderRadius: 1,
               transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -173,6 +188,7 @@ const App = () => {
             to="/contactus"
             onClick={() => setMobileOpen(false)}
             sx={{
+              textDecoration: 'none',
               cursor: 'pointer',
               borderRadius: 1,
               transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -193,6 +209,7 @@ const App = () => {
                 to="/fhir"
                 onClick={() => setMobileOpen(false)}
                 sx={{
+                  textDecoration: 'none',
                   cursor: 'pointer',
                   borderRadius: 1,
                   transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -211,6 +228,7 @@ const App = () => {
                 to="/hl7"
                 onClick={() => setMobileOpen(false)}
                 sx={{
+                  textDecoration: 'none',
                   cursor: 'pointer',
                   borderRadius: 1,
                   transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -229,6 +247,7 @@ const App = () => {
                 to="/report"
                 onClick={() => setMobileOpen(false)}
                 sx={{
+                  textDecoration: 'none',
                   cursor: 'pointer',
                   borderRadius: 1,
                   transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -247,6 +266,7 @@ const App = () => {
                 to="/patients"
                 onClick={() => setMobileOpen(false)}
                 sx={{
+                  textDecoration: 'none',
                   cursor: 'pointer',
                   borderRadius: 1,
                   transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
@@ -330,9 +350,34 @@ const App = () => {
               </IconButton>
             </Tooltip>
             {currentUser ? (
-              <Button color="inherit" onClick={handleLogout}>
-                Logout ({currentUser.username})
-              </Button>
+              <>
+                <Button
+                  color="inherit"
+                  onClick={handleMenuOpen}
+                  aria-controls="profile-menu"
+                  aria-haspopup="true"
+                  sx={{ textTransform: 'none', minWidth: 'auto', paddingLeft: 1, paddingRight: 1 }}
+                >
+                  {currentUser.username}
+                </Button>
+                <Menu
+                  id="profile-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <MenuItem onClick={() => {handleMenuClose(); navigate('/profile');}}>Profile</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </>
             ) : (
               <>
                 <Button color="inherit" component={Link} to="/login">Login</Button>
@@ -382,37 +427,39 @@ const App = () => {
             backgroundColor: theme.palette.background.default,
           }}
         >
-          <AnimatedRoutes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/mod" element={<PrivateRoute roles={["ROLE_MODERATOR"]}><BoardModerator /></PrivateRoute>} />
-            <Route path="/admin" element={<PrivateRoute roles={["ROLE_ADMIN"]}><BoardAdmin /></PrivateRoute>} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contactus" element={<ContactUs />} />
-            <Route path="/fhir" element={
-              <PrivateRoute>
-                <FHIRUploader />
-              </PrivateRoute>
-            } />
-            <Route path="/hl7" element={
-              <PrivateRoute>
-                <HL7Uploader />
-              </PrivateRoute>
-            } />
-            <Route path="/report" element={
-              <PrivateRoute>
-                <Report />
-              </PrivateRoute>
-            } />
-            <Route path="/patients" element={
-              <PrivateRoute>
-                <PatientManager />
-              </PrivateRoute>
-            } />
-          </AnimatedRoutes>
+          <ScrollToTop>
+            <AnimatedRoutes>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/mod" element={<PrivateRoute roles={["ROLE_MODERATOR"]}><BoardModerator /></PrivateRoute>} />
+              <Route path="/admin" element={<PrivateRoute roles={["ROLE_ADMIN"]}><BoardAdmin /></PrivateRoute>} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/fhir" element={
+                <PrivateRoute>
+                  <FHIRUploader />
+                </PrivateRoute>
+              } />
+              <Route path="/hl7" element={
+                <PrivateRoute>
+                  <HL7Uploader />
+                </PrivateRoute>
+              } />
+              <Route path="/report" element={
+                <PrivateRoute>
+                  <Report />
+                </PrivateRoute>
+              } />
+              <Route path="/patients" element={
+                <PrivateRoute>
+                  <PatientManager />
+                </PrivateRoute>
+              } />
+            </AnimatedRoutes>
+          </ScrollToTop>
         </Box>
       </Box>
     </ThemeProvider>

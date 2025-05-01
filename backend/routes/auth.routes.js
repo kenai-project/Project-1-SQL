@@ -9,7 +9,7 @@ router.post("/register", authController.register);
 // Login Route
 router.post("/login", authController.login);
 
-// Removed Get Profile route as handler is undefined
-// router.get("/profile", authMiddleware, authController.getProfile);
+// Password Update Route
+router.put("/password", authMiddleware, authController.updatePassword);
 
 module.exports = router;
