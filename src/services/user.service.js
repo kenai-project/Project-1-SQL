@@ -1,21 +1,27 @@
-const API_URL = "http://localhost:5000/api/auth";
+import axios from "axios";
 
-async function updatePassword(currentPassword, newPassword, confirmPassword) {
-  const response = await fetch(`${API_URL}/password`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
-  });
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Failed to update password");
+const API_URL = "http://localhost:5000/api/auth/";
+
+// Update user profile
+const updateProfile = async (profileData) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || !user.accessToken) {
+    throw new Error("User not authenticated");
   }
-  return response.json();
-}
+
+  try {
+    const response = await axios.put(`${API_URL}profile`, profileData, {
+      headers: { Authorization: `Bearer ${user.accessToken}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("❌ Failed to update profile:", error.response?.data || error.message);
+    throw error;
+  }
+};
 
 const userService = {
-  updatePassword,
+  updateProfile,
 };
 
 export default userService;

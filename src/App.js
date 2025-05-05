@@ -46,6 +46,9 @@ import FHIRUploader from "./components/FHIRUploader";
 import HL7Uploader from "./components/HL7Uploader";
 import PatientManager from "./components/PatientManager";
 
+import DremioQuery from "./components/DremioQuery";
+import SparkQuery from "./components/SparkQuery";
+
 import EventBus from "./common/EventBus";
 
 const drawerWidth = 240;
@@ -261,25 +264,63 @@ const App = () => {
                 <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
                 <ListItemText primary="Report" />
               </ListItem>
-              <ListItem
-                component={Link}
-                to="/patients"
-                onClick={() => setMobileOpen(false)}
-                sx={{
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                  borderRadius: 1,
-                  transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
-                    transform: 'scale(1.05)',
-                    color: '#1976d2',
-                  },
-                }}
-              >
-                <ListItemIcon><PeopleIcon color="primary" /></ListItemIcon>
-                <ListItemText primary="Patients" />
-              </ListItem>
+          <ListItem
+            component={Link}
+            to="/patients"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              textDecoration: 'none',
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                transform: 'scale(1.05)',
+                color: '#1976d2',
+              },
+            }}
+          >
+            <ListItemIcon><PeopleIcon color="primary" /></ListItemIcon>
+            <ListItemText primary="Patients" />
+          </ListItem>
+          <ListItem
+            component={Link}
+            to="/dremio"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              textDecoration: 'none',
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                transform: 'scale(1.05)',
+                color: '#1976d2',
+              },
+            }}
+          >
+            <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
+            <ListItemText primary="Dremio" />
+          </ListItem>
+          <ListItem
+            component={Link}
+            to="/spark"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              textDecoration: 'none',
+              cursor: 'pointer',
+              borderRadius: 1,
+              transition: 'transform 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                transform: 'scale(1.05)',
+                color: '#1976d2',
+              },
+            }}
+          >
+            <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
+            <ListItemText primary="Spark" />
+          </ListItem>
             </>
           )}
           {showModeratorBoard && (
@@ -458,6 +499,8 @@ const App = () => {
                   <PatientManager />
                 </PrivateRoute>
               } />
+              <Route path="/dremio" element={<DremioQuery />} />
+              <Route path="/spark" element={<SparkQuery />} />
             </AnimatedRoutes>
           </ScrollToTop>
         </Box>
