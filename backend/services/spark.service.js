@@ -1,18 +1,40 @@
+const axios = require('axios');
+
 class SparkService {
   constructor() {
-    // Placeholder for Spark connection setup
     this.baseUrl = process.env.SPARK_REST_API_URL || 'http://localhost:8998';
   }
 
   async submitStatement(sql) {
-    // Placeholder method to submit SQL statement to Spark via REST API
-    // Implementation will depend on Spark Thrift Server or Livy REST API usage
-    throw new Error('SparkService.submitStatement not implemented yet');
+    try {
+      const response = await axios.post(`${this.baseUrl}/statements`, {
+        code: sql,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to submit statement: ${error.message}`);
+    }
   }
 
   async query(sql) {
-    // Placeholder method to query Spark
-    throw new Error('SparkService.query not implemented yet');
+    return this.submitStatement(sql);
+  }
+
+  async submitStreamingJob(jobConfig) {
+    // jobConfig should include Kafka topic, Iceberg table, schema, etc.
+    // This is a placeholder example of submitting a Spark Structured Streaming job via REST API
+    try {
+      const sql = `
+        CREATE STREAMING LIVE TABLE ${jobConfig.icebergTable} AS
+        SELECT * FROM kafka.${jobConfig.kafkaTopic}
+      `;
+      const response = await axios.post(`${this.baseUrl}/statements`, {
+        code: sql,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to submit streaming job: ${error.message}`);
+    }
   }
 }
 

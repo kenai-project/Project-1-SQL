@@ -14,6 +14,7 @@ const patientRoutes = require("./routes/patient.routes");
 const uploadRoutes = require("./routes/upload.routes");
 const dremioRoutes = require("./routes/dremio.routes");
 const sparkRoutes = require("./routes/spark.routes");
+const monitoringRoutes = require("./routes/monitoring.routes");
 
 const HL7Log = require("./models/HL7Log");
 
@@ -54,6 +55,7 @@ app.use("/api/patients", patientRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/dremio", dremioRoutes);
 app.use("/api/spark", sparkRoutes);
+app.use("/api/monitoring", monitoringRoutes);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
