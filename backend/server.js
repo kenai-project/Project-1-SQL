@@ -1,10 +1,10 @@
-require("dotenv").config({ path: "../.env" }); // Load environment variables from root .env
+require('dotenv').config();
 
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const hl7 = require("simple-hl7");
-const { Pool } = require("pg");
+const pgPool = require('./db');
 
 const authRoutes = require("./routes/auth.routes");
 const aiRoutes = require("./routes/ai.routes");
@@ -18,6 +18,9 @@ const monitoringRoutes = require("./routes/monitoring.routes");
 
 const HL7Log = require("./models/HL7Log");
 
+const kafkaService = require("./services/kafka.service");
+require("./scheduler/incrementalSyncScheduler");
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -28,19 +31,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-
-if (!process.env.PG_CONNECTION_STRING) {
-  console.error("❌ PG_CONNECTION_STRING is not defined in environment variables.");
-  process.exit(1);
-}
-
-const pgPool = new Pool({
-  connectionString: process.env.PG_CONNECTION_STRING,
-});
-
-pgPool.on("connect", () => {
-  console.log("✅ Connected to PostgreSQL");
-});
 
 app.use((req, res, next) => {
   req.pgPool = pgPool;
@@ -111,6 +101,16 @@ const server = app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
 
+// Start Kafka service connection
+(async () => {
+  try {
+    await kafkaService.connect();
+    console.log("✅ Kafka service connected");
+  } catch (error) {
+    console.error("❌ Kafka service connection failed:", error);
+  }
+})();
+
 process.on("SIGINT", async () => {
   console.log("🛑 Gracefully shutting down...");
   await pgPool.end();
@@ -119,3 +119,5 @@ process.on("SIGINT", async () => {
     process.exit(0);
   });
 });
+
+module.exports.pgPool = pgPool;

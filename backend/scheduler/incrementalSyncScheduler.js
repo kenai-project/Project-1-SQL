@@ -3,11 +3,15 @@ const kafkaService = require('../services/kafka.service');
 
 const tablesToSync = [
   {
-    tableName: 'your_table_name', // Replace with your PostgreSQL table name
-    incrementalColumn: 'updated_at', // Replace with your incremental column
-    lastValue: '1970-01-01T00:00:00Z', // Initial last sync timestamp
+    tableName: 'hl7_records',
+    incrementalColumn: 'created_at',
+    lastValue: '1970-01-01T00:00:00Z',
   },
-  // Add more tables as needed
+  {
+    tableName: 'fhir_records',
+    incrementalColumn: 'updated_at',
+    lastValue: '1970-01-01T00:00:00Z',
+  },
 ];
 
 // Function to update lastValue after each sync

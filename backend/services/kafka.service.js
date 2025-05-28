@@ -1,5 +1,5 @@
 const { Kafka } = require('kafkajs');
-const pgPool = require('../server').pgPool; // Import pgPool from server.js or pass it as param
+const pgPool = require('../db'); // Import pgPool from db.js
 
 class KafkaService {
   constructor() {
