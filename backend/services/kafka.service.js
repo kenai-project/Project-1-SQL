@@ -1,18 +1,22 @@
 const { Kafka } = require('kafkajs');
 const pgPool = require('../db'); // Import pgPool from db.js
 
+const isRender = process.env.RENDER === 'true';
+
 class KafkaService {
   constructor() {
-    this.kafka = new Kafka({
-      clientId: 'my-app',
-      brokers: ['localhost:9092'],
-    });
-    this.producer = this.kafka.producer();
-    this.connected = false;
+    if (!isRender) {
+      this.kafka = new Kafka({
+        clientId: 'my-app',
+        brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+      });
+      this.producer = this.kafka.producer();
+      this.connected = false;
+    }
   }
 
   async connect() {
-    if (!this.connected) {
+    if (!isRender && !this.connected) {
       await this.producer.connect();
       this.connected = true;
     }
