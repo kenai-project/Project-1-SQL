@@ -31,6 +31,16 @@ class KafkaService {
   }
 
   async produceIncrementalData(tableName, incrementalColumn, lastValue) {
+    const validTables = {
+      hl7_records: ['created_at'],
+      fhir_records: ['updated_at'],
+    };
+
+    if (!validTables[tableName] || !validTables[tableName].includes(incrementalColumn)) {
+      console.error(`Invalid tableName or incrementalColumn: ${tableName}, ${incrementalColumn}`);
+      return 0;
+    }
+
     await this.connect();
     const client = await pgPool.connect();
     try {
@@ -38,9 +48,16 @@ class KafkaService {
       const res = await client.query(query, [lastValue]);
       for (const row of res.rows) {
         const topic = tableName + '-update';
-        await this.sendMessage(topic, row);
+        try {
+          await this.sendMessage(topic, row);
+        } catch (sendError) {
+          console.error(`Error sending message to topic ${topic}:`, sendError.stack || sendError);
+        }
       }
       return res.rows.length;
+    } catch (error) {
+      console.error(`Error in produceIncrementalData for table ${tableName}:`, error.stack || error);
+      throw error;
     } finally {
       client.release();
     }
