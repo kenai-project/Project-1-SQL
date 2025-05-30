@@ -7,7 +7,8 @@
     "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
     "start-backend": "node backend/server.js",
     "start-frontend": "react-scripts start",
-    "dev": "nodemon backend/server.js"
+    "dev": "nodemon backend/server.js",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

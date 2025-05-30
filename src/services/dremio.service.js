@@ -7,6 +7,8 @@ const runQuery = async (sql) => {
   return response.data;
 };
 
-export default {
+const dremioService = {
   runQuery,
 };
+
+export default dremioService;

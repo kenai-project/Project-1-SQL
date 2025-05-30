@@ -7,6 +7,8 @@ const runQuery = async (sql) => {
   return response.data;
 };
 
-export default {
+const sparkService = {
   runQuery,
 };
+
+export default sparkService;
