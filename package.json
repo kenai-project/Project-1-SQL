@@ -8,7 +8,8 @@
     "start-backend": "node backend/server.js",
     "start-frontend": "react-scripts start",
     "dev": "nodemon backend/server.js",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "postinstall": "npm install react-scripts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
