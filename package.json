@@ -6,6 +6,8 @@
   "scripts": {
     "start": "react-scripts start",
     "start-backend": "node backend/server.js",
+    "install-backend": "cd backend && npm install",
+    "start-backend-full": "npm run install-backend && npm run start-backend",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
