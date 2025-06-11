@@ -12,13 +12,30 @@ class KafkaService {
       });
       this.producer = this.kafka.producer();
       this.connected = false;
+      this.maxRetries = 10; // max retry attempts
+      this.retryDelay = 3000; // delay between retries in ms
     }
   }
 
   async connect() {
     if (!isRender && !this.connected) {
-      await this.producer.connect();
-      this.connected = true;
+      let attempts = 0;
+      while (attempts < this.maxRetries) {
+        try {
+          await this.producer.connect();
+          this.connected = true;
+          console.log("✅ Kafka producer connected");
+          break;
+        } catch (error) {
+          attempts++;
+          console.error(`⚠️ Kafka connection attempt ${attempts} failed:`, error.message || error);
+          if (attempts >= this.maxRetries) {
+            console.error("❌ Kafka connection failed after max retries");
+            throw error;
+          }
+          await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        }
+      }
     }
   }
 
