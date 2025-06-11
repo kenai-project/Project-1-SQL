@@ -4,8 +4,10 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
-    "start": "react-scripts start",
+    "docker-up": "docker-compose up -d",
     "start-backend": "node backend/server.js",
+    "start-frontend": "react-scripts start",
+    "start": "concurrently \"npm run docker-up\" \"npm run start-frontend\" \"npm run start-backend\"",
     "install-backend": "cd backend && npm install",
     "start-backend-full": "npm run install-backend && npm run start-backend",
     "build": "react-scripts build",
