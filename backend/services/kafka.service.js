@@ -9,6 +9,9 @@ class KafkaService {
       this.kafka = new Kafka({
         clientId: 'my-app',
         brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+        // Silence partitioner warning
+        // See https://kafka.js.org/docs/migration-guide-v2.0.0#producer-new-default-partitioner
+        createPartitioner: require('kafkajs').Partitioners.LegacyPartitioner,
       });
       this.producer = this.kafka.producer();
       this.connected = false;
