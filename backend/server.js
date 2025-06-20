@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const hl7 = require("simple-hl7");
 const pgPool = require('./db');
+const connectMongoDB = require('./mongodb');  // added
 
 const authRoutes = require("./routes/auth.routes");
 const aiRoutes = require("./routes/ai.routes");
@@ -37,6 +38,9 @@ app.use((req, res, next) => {
   req.pgPool = pgPool;
   next();
 });
+
+// Initialize MongoDB connection
+connectMongoDB();
 
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);

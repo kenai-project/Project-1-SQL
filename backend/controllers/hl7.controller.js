@@ -1,5 +1,6 @@
 const { insertHL7Record, getHL7Records } = require("../models/HL7Record");
 const { createPatient, getAllPatients, updatePatient } = require("../models/patient.model");
+const HL7MongoRecord = require("../models/hl7Mongo.model");  // added
 
 // Basic custom HL7 parser function (splits message into segments and fields)
 function parseHL7Message(message) {
@@ -40,6 +41,13 @@ exports.parseHL7 = async (req, res) => {
 
     // Save the record to PostgreSQL using the new model function
     const newRecord = await insertHL7Record(hl7Message, parsed);
+
+    // Save the record to MongoDB using mongoose model
+    const mongoRecord = new HL7MongoRecord({
+      message: hl7Message,
+      parsed_data: parsed,
+    });
+    await mongoRecord.save();
 
     // Extract patient info from PID segment
     const patientData = await extractPatientFromPID(parsed);
