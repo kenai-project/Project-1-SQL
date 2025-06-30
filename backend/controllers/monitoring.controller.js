@@ -42,6 +42,17 @@ class MonitoringController {
       res.status(500).json({ message: 'Failed to check Spark job failures', error: error.message });
     }
   }
+
+  async getPrometheusMetrics(req, res) {
+    try {
+      const metrics = await monitoringService.getMetrics();
+      res.set('Content-Type', monitoringService.register.contentType);
+      res.send(metrics);
+    } catch (error) {
+      console.error('MonitoringController.getPrometheusMetrics error:', error.message);
+      res.status(500).json({ message: 'Failed to get Prometheus metrics', error: error.message });
+    }
+  }
 }
 
 module.exports = new MonitoringController();

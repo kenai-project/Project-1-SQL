@@ -1,8 +1,17 @@
 module.exports = {
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.[jt]sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(axios|other-esm-modules)/)',
+    '/node_modules/(?!(axios|date-fns|@mui|@babel/runtime)/)',
   ],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
+  extensionsToTreatAsEsm: ['.ts', '.tsx', '.js', '.jsx'],
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
 };

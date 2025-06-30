@@ -1,0 +1,12 @@
+# prometheus.yml
+# Prometheus scrape configuration for Node.js app exposing /metrics endpoint
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'nodejs-app'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['localhost:3000']  # Adjust port if your app runs on a different port

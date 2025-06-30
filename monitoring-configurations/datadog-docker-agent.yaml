@@ -1,0 +1,24 @@
+# datadog-docker-agent.yaml
+# Datadog Agent configuration with Prometheus integration enabled
+
+listeners:
+  - name: dogstatsd
+    port: 8125
+
+logs_enabled: true
+
+apm_config:
+  enabled: true
+
+prometheus_scrape:
+  enabled: true
+  configs:
+    - prometheus_url: http://host.docker.internal:3000/metrics
+      namespace: nodejs_app
+      metrics:
+        - kafka_ingestion_lag
+        - kafka_message_throughput_total
+        - kafka_connect_connector_health
+        - kafka_connect_error_rate
+        - postgres_query_duration_seconds
+        - postgres_error_rate_total

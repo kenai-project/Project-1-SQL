@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const express = require("express");
@@ -6,7 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const hl7 = require("simple-hl7");
 const pgPool = require('./db');
-const connectMongoDB = require('./mongodb');  // added
+const connectMongoDB = require('./mongodb');
 
 const authRoutes = require("./routes/auth.routes");
 const aiRoutes = require("./routes/ai.routes");
@@ -17,6 +16,8 @@ const uploadRoutes = require("./routes/upload.routes");
 const dremioRoutes = require("./routes/dremio.routes");
 const sparkRoutes = require("./routes/spark.routes");
 const monitoringRoutes = require("./routes/monitoring.routes");
+const healthcheckRoutes = require("./routes/healthcheck.routes");
+const testHL7Routes = require("./routes/testHL7.routes");
 
 const HL7Log = require("./models/HL7Log");
 
@@ -40,7 +41,10 @@ app.use((req, res, next) => {
 });
 
 // Initialize MongoDB connection
-connectMongoDB();
+connectMongoDB().catch(error => {
+  console.error('❌ MongoDB connection failed:', error);
+  process.exit(1);
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
@@ -51,13 +55,15 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/dremio", dremioRoutes);
 app.use("/api/spark", sparkRoutes);
 app.use("/api/monitoring", monitoringRoutes);
+app.use("/api", healthcheckRoutes);
+app.use("/api", testHL7Routes);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
 });
 
 app.post("/api/send-hl7", async (req, res) => {
-  const hl7Message = req.body.message;
+  const hl7Message = req.body.hl7Message;
 
   if (!hl7Message || hl7Message.length === 0) {
     return res.status(400).json({ message: "HL7 message is required." });
@@ -71,7 +77,7 @@ app.post("/api/send-hl7", async (req, res) => {
   const client = hl7.Server.createTcpClient({
     host: hl7Host,
     port: hl7Port,
-    framing: hl7.TcpClient.MLLP,
+    framing: "MLLP",
   });
 
   client.send(hl7Message, async (err, ack) => {
@@ -102,27 +108,43 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+let server;
 
-// Start Kafka service connection
-(async () => {
-  try {
-    await kafkaService.connect();
-    console.log("✅ Kafka service connected");
-  } catch (error) {
-    console.error("❌ Kafka service connection failed:", error);
+if (process.env.NODE_ENV !== 'test') {
+  server = app.listen(PORT, () => {
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  });
+}
+
+// Start Kafka service connection with retry logic
+const waitForKafka = async () => {
+  for (let attempt = 1; attempt <= 10; attempt++) {
+    try {
+      await kafkaService.connect();
+      console.log("✅ Kafka service connected");
+      break;
+    } catch (error) {
+      console.warn(`⏳ Kafka connection attempt ${attempt} failed: ${error.message}`);
+      await new Promise(res => setTimeout(res, 3000));
+    }
   }
+};
+
+(async () => {
+  await waitForKafka();
 })();
 
 process.on("SIGINT", async () => {
   console.log("🛑 Gracefully shutting down...");
   await pgPool.end();
-  server.close(() => {
-    console.log("👋 Server closed.");
+  if (server) {
+    server.close(() => {
+      console.log("👋 Server closed.");
+      process.exit(0);
+    });
+  } else {
     process.exit(0);
-  });
+  }
 });
 
-module.exports.pgPool = pgPool;
+module.exports = app;

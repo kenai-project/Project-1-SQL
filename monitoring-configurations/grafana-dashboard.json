@@ -1,0 +1,97 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Monitoring Dashboard",
+    "tags": ["kafka", "debezium", "postgresql", "app"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Kafka Ingestion Lag",
+        "targets": [
+          {
+            "expr": "kafka_ingestion_lag",
+            "legendFormat": "{{topic}} - {{group}}",
+            "refId": "A"
+          }
+        ],
+        "id": 1
+      },
+      {
+        "type": "graph",
+        "title": "Kafka Message Throughput",
+        "targets": [
+          {
+            "expr": "rate(kafka_message_throughput_total[5m])",
+            "legendFormat": "{{topic}}",
+            "refId": "B"
+          }
+        ],
+        "id": 2
+      },
+      {
+        "type": "graph",
+        "title": "Debezium Connector Health",
+        "targets": [
+          {
+            "expr": "kafka_connect_connector_health",
+            "legendFormat": "{{connector}}",
+            "refId": "C"
+          }
+        ],
+        "id": 3
+      },
+      {
+        "type": "graph",
+        "title": "Debezium Error Rate",
+        "targets": [
+          {
+            "expr": "kafka_connect_error_rate",
+            "legendFormat": "{{connector}}",
+            "refId": "D"
+          }
+        ],
+        "id": 4
+      },
+      {
+        "type": "graph",
+        "title": "PostgreSQL Query Duration",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(postgres_query_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "95th percentile",
+            "refId": "E"
+          }
+        ],
+        "id": 5
+      },
+      {
+        "type": "graph",
+        "title": "PostgreSQL Error Rate",
+        "targets": [
+          {
+            "expr": "rate(postgres_error_rate_total[5m])",
+            "legendFormat": "errors",
+            "refId": "F"
+          }
+        ],
+        "id": 6
+      },
+      {
+        "type": "graph",
+        "title": "App HTTP Request Latency",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "95th percentile",
+            "refId": "G"
+          }
+        ],
+        "id": 7
+      }
+    ],
+    "schemaVersion": 27,
+    "version": 0
+  },
+  "overwrite": false
+}

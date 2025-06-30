@@ -49,6 +49,8 @@ import PatientManager from "./components/PatientManager";
 import DremioQuery from "./components/DremioQuery";
 import SparkQuery from "./components/SparkQuery";
 
+import AnimeExample from "./components/AnimeExample";
+
 import EventBus from "./common/EventBus";
 
 const drawerWidth = 240;
@@ -500,8 +502,9 @@ const App = () => {
                 </PrivateRoute>
               } />
               <Route path="/dremio" element={<DremioQuery />} />
-              <Route path="/spark" element={<SparkQuery />} />
+            <Route path="/spark" element={<SparkQuery />} />
             </AnimatedRoutes>
+            <AnimeExample />
           </ScrollToTop>
         </Box>
       </Box>
