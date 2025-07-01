@@ -1,17 +1,13 @@
 module.exports = {
   transform: {
-    '^.+\\.[jt]sx?$': 'babel-jest',
+    "^.+\\.[jt]sx?$": "babel-jest"
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!(axios|date-fns|@mui|@babel/runtime)/)',
+    "/node_modules/(?!(date-fns|@mui/x-date-pickers)/)"
   ],
   moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy"
   },
-  extensionsToTreatAsEsm: ['.ts', '.tsx', '.js', '.jsx'],
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
-  },
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"]
 };

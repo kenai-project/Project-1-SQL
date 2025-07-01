@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const hl7 = require("simple-hl7");
 const pgPool = require('./db');
 const connectMongoDB = require('./mongodb');
+const { exec } = require('child_process');
 
 const authRoutes = require("./routes/auth.routes");
 const aiRoutes = require("./routes/ai.routes");
@@ -60,6 +61,22 @@ app.use("/api", testHL7Routes);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
+});
+
+/**
+ * 🔁 On-demand route to run kafka-consumer-groups.sh safely
+ * URL: http://localhost:5000/kafka/describe-group
+ */
+app.get('/kafka/describe-group', (req, res) => {
+  const kafkaCmd = `bash -i C:\\kafka\\bin\\kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group group2`;
+
+  exec(kafkaCmd, (error, stdout, stderr) => {
+    if (error) {
+      console.error('Error running Kafka command:', stderr);
+      return res.status(500).send(stderr);
+    }
+    res.send(stdout);
+  });
 });
 
 app.post("/api/send-hl7", async (req, res) => {

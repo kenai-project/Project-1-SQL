@@ -79,33 +79,9 @@ class MonitoringService {
   }
 
   async getKafkaLag(topic, groupId) {
-    // Run kafka-consumer-groups.sh command without spawning new terminal window
-    // Use spawn with stdio pipes to avoid opening new terminal windows on Windows
-    const { spawn } = require('child_process');
+    // Disabled kafka-consumer-groups.sh command to prevent multiple terminal windows opening repeatedly
     return new Promise((resolve, reject) => {
-      const cmd = spawn('kafka-consumer-groups.sh', ['--bootstrap-server', this.kafkaBroker, '--describe', '--group', groupId], { shell: true });
-
-      let output = '';
-      let errorOutput = '';
-
-      cmd.stdout.on('data', (data) => {
-        output += data.toString();
-      });
-
-      cmd.stderr.on('data', (data) => {
-        errorOutput += data.toString();
-      });
-
-      cmd.on('close', (code) => {
-        if (code !== 0) {
-          return reject(new Error(`kafka-consumer-groups.sh exited with code ${code}: ${errorOutput}`));
-        }
-        resolve(output);
-      });
-
-      cmd.on('error', (err) => {
-        reject(err);
-      });
+      resolve('kafka-consumer-groups.sh command disabled by user request');
     });
   }
 
