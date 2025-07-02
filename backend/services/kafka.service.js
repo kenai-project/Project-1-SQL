@@ -8,7 +8,7 @@ class KafkaService {
     if (!isRender) {
       this.kafka = new Kafka({
         clientId: 'my-app',
-        brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
+        brokers: [process.env.KAFKA_BROKER || 'localhost:29092'],
       });
       this.producer = this.kafka.producer();
       this.connected = false;
