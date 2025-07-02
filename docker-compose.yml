@@ -22,7 +22,7 @@ services:
     depends_on:
       - zookeeper
 
-  debezium:
+  datadog:
     image: datadog/agent:latest
     environment:
       - DD_API_KEY=your_datadog_api_key_here
