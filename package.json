@@ -9,7 +9,7 @@
     "docker-down": "docker-compose down -v",
     "docker-restart": "npm run docker-down && npm run docker-up",
     "start-frontend": "react-scripts start",
-    "start-backend": "node backend/server.js",
+    "start-backend": "set KAFKA_BROKER=localhost:29092 KAFKAJS_NO_PARTITIONER_WARNING=1 && node backend/server.js",
     "test": "react-scripts test",
     "test:backend": "jest"
   },

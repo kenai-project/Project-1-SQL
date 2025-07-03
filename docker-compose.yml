@@ -43,8 +43,6 @@ services:
     image: datadog/agent:latest
     ports:
       - "8126:8126"
-      - "5001:5001"
-      - "6162:6162"
     environment:
       - DD_API_KEY=dummykey123                   # ✅ Use dummy key for local testing
       - DD_SITE=datadoghq.com
