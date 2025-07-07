@@ -5,6 +5,7 @@ const isRender = process.env.RENDER === 'true';
 
 class KafkaService {
   constructor() {
+    console.log("DEBUG: KAFKA_BROKER env var:", process.env.KAFKA_BROKER);
     if (!isRender) {
       this.kafka = new Kafka({
         clientId: 'my-app',
@@ -41,6 +42,11 @@ class KafkaService {
 
   async sendMessage(topic, message) {
     await this.connect();
+    // Add delay before sending first message to allow Kafka leader election
+    if (!this._delayDone) {
+      await new Promise(resolve => setTimeout(resolve, 5000)); // 5 seconds delay
+      this._delayDone = true;
+    }
     await this.producer.send({
       topic,
       messages: [{ value: JSON.stringify(message) }],

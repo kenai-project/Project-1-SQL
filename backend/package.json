@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "set KAFKA_BROKER=localhost:29092 KAFKAJS_NO_PARTITIONER_WARNING=1 && node server.js",
+    "start": "set KAFKA_BROKER=localhost:29092 && set KAFKAJS_NO_PARTITIONER_WARNING=1 && node server.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {

@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run docker-up && npm run wait-kafka && concurrently \"npm run start-frontend\" \"npm run start-backend\"",
+    "start": "npm run docker-up && npm run wait-kafka && concurrently \"set KAFKA_BROKER=localhost:29092 && set KAFKAJS_NO_PARTITIONER_WARNING=1 && npm run start-frontend\" \"set KAFKA_BROKER=localhost:29092 && set KAFKAJS_NO_PARTITIONER_WARNING=1 && npm run start-backend\"",
     "docker-up": "docker-compose up -d",
     "wait-kafka": "node wait-for-kafka.js",
     "docker-down": "docker-compose down -v",
     "docker-restart": "npm run docker-down && npm run docker-up",
     "start-frontend": "react-scripts start",
-    "start-backend": "set KAFKA_BROKER=localhost:29092 KAFKAJS_NO_PARTITIONER_WARNING=1 && node backend/server.js",
+    "start-backend": "set KAFKA_BROKER=localhost:29092 && set KAFKAJS_NO_PARTITIONER_WARNING=1 && node backend/server.js",
     "test": "react-scripts test",
     "test:backend": "jest"
   },
