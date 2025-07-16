@@ -135,10 +135,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 // Start Kafka service connection with retry logic
 const waitForKafka = async () => {
+  const topicsToCreate = ['hl7_records-update', 'fhir_records-update'];
   for (let attempt = 1; attempt <= 10; attempt++) {
     try {
+      console.log(`🔁 Kafka connection attempt ${attempt}/10`);
       await kafkaService.connect();
-      console.log("✅ Kafka service connected");
+      await kafkaService.createTopics(topicsToCreate);
+      console.log("✅ Kafka service connected and topics ensured");
       break;
     } catch (error) {
       console.warn(`⏳ Kafka connection attempt ${attempt} failed: ${error.message}`);

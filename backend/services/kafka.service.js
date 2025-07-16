@@ -12,30 +12,20 @@ class KafkaService {
         brokers: [process.env.KAFKA_BROKER || 'localhost:29092'],
       });
       this.producer = this.kafka.producer();
+      this.admin = this.kafka.admin();
       this.connected = false;
-      this.maxRetries = 10; // max retry attempts
-      this.retryDelay = 3000; // delay between retries in ms
     }
   }
 
   async connect() {
     if (!isRender && !this.connected) {
-      let attempts = 0;
-      while (attempts < this.maxRetries) {
-        try {
-          await this.producer.connect();
-          this.connected = true;
-          console.log("✅ Kafka producer connected");
-          break;
-        } catch (error) {
-          attempts++;
-          console.error(`⚠️ Kafka connection attempt ${attempts} failed:`, error.message || error);
-          if (attempts >= this.maxRetries) {
-            console.error("❌ Kafka connection failed after max retries");
-            throw error;
-          }
-          await new Promise(resolve => setTimeout(resolve, this.retryDelay));
-        }
+      try {
+        await this.producer.connect();
+        this.connected = true;
+        console.log("✅ Kafka producer connected");
+      } catch (error) {
+        console.error("❌ Kafka connection failed:", error.message || error);
+        throw error;
       }
     }
   }
@@ -83,6 +73,23 @@ class KafkaService {
       throw error;
     } finally {
       client.release();
+    }
+  }
+  async createTopics(topics) {
+    if (!isRender) {
+      try {
+        await this.admin.connect();
+        const created = await this.admin.createTopics({
+          topics: topics.map(topic => ({ topic })),
+          waitForLeaders: true,
+        });
+        console.log(`✅ Kafka topics created or already exist: ${topics.join(', ')}`);
+        await this.admin.disconnect();
+        return created;
+      } catch (error) {
+        console.error("❌ Error creating Kafka topics:", error.stack || error);
+        throw error;
+      }
     }
   }
 }
