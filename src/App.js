@@ -46,9 +46,6 @@ import FHIRUploader from "./components/FHIRUploader";
 import HL7Uploader from "./components/HL7Uploader";
 import PatientManager from "./components/PatientManager";
 
-import DremioQuery from "./components/DremioQuery";
-import SparkQuery from "./components/SparkQuery";
-
 import AnimeExample from "./components/AnimeExample";
 
 import EventBus from "./common/EventBus";
@@ -285,7 +282,7 @@ const App = () => {
             <ListItemIcon><PeopleIcon color="primary" /></ListItemIcon>
             <ListItemText primary="Patients" />
           </ListItem>
-          <ListItem
+          {/* <ListItem
             component={Link}
             to="/dremio"
             onClick={() => setMobileOpen(false)}
@@ -303,8 +300,8 @@ const App = () => {
           >
             <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
             <ListItemText primary="Dremio" />
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             component={Link}
             to="/spark"
             onClick={() => setMobileOpen(false)}
@@ -322,7 +319,7 @@ const App = () => {
           >
             <ListItemIcon><DescriptionIcon color="primary" /></ListItemIcon>
             <ListItemText primary="Spark" />
-          </ListItem>
+          </ListItem> */}
             </>
           )}
           {showModeratorBoard && (
@@ -501,8 +498,8 @@ const App = () => {
                   <PatientManager />
                 </PrivateRoute>
               } />
-              <Route path="/dremio" element={<DremioQuery />} />
-            <Route path="/spark" element={<SparkQuery />} />
+              {/* <Route path="/dremio" element={<DremioQuery />} /> */}
+            {/* <Route path="/spark" element={<SparkQuery />} /> */}
             </AnimatedRoutes>
             <AnimeExample />
           </ScrollToTop>
